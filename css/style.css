@@ -1,0 +1,50 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    width: 960px;
+    margin: auto;
+  }
+
+  img
+  {
+    width: 50%;
+  }
+  
+
+  
+  
+  .container {
+    display: grid;
+    grid-template-rows: 100px minmax(calc(100vh - 170px) , 1fr) 50px;
+    gap: 10px;
+  }
+  
+  .image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  button
+  {
+    width: 50%;
+    height: fit-content;
+    width: 50%;
+    height: fit-content;
+    margin-block-start: auto
+}
+  }
+  
+  footer {
+    text-align: center;
+    display: flex;
+    background: #505153;
+    color: #eee;
+   
+  }
+  
+  footer p {
+    width: 100%;
+    text-align: center;
+  }
