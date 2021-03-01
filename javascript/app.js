@@ -21,46 +21,56 @@ let busArray = [
   'water-can',
   'wine-glass'
 ];
-const productType = document.getElementById( 'productType' );
-const leftImage = document.getElementById( 'leftImage' );
-const centerImage = document.getElementById( 'centerImage' );
-const rightImage = document.getElementById( 'rightImage' );
+let arr=[30 ,50,60];
+const productType = document.getElementById('productType');
+const leftImage = document.getElementById('leftImage');
+const centerImage = document.getElementById('centerImage');
+const rightImage = document.getElementById('rightImage');
 
 let leftBusIndex = 0;
 let centerBusIndex = 0;
 let rightBusIndex = 0;
-const clickCounter = 25 ;
+const clickCounter = 25;
 
-function Bus( name ) {
+function Bus(name) {
   this.name = name;
   this.image = `./img11/${name}.jpg`;
   this.clicks = 0;
   this.shown = 0;
-  Bus.all.push( this );
+  Bus.all.push(this);
 }
 
 Bus.all = [];
 Bus.counter = 0;
 
-for( let i = 0; i < busArray.length; i++ ) {
-  new Bus( busArray[i] );
+for (let i = 0; i < busArray.length; i++) {
+  new Bus(busArray[i]);
 }
-
+//30 , 50, 60
 function renderNewBus() {
-  let leftIndex = randomNumber( 0, Bus.all.length - 1 );
+  let leftIndex 
+  do
+  { 
+    leftIndex =randomNumber(0, Bus.all.length - 1);
+  }
+  while(( leftIndex === arr[0] || leftIndex === arr[1] || leftIndex === arr[2]))
   leftImage.src = Bus.all[leftIndex].image;
   leftImage.alt = Bus.all[leftIndex].name;
   leftBusIndex = leftIndex;
 
-  let centerIndex = randomNumber( 0, Bus.all.length - 1 );
+  let centerIndex;
+  do {
+    centerIndex = randomNumber(0, Bus.all.length - 1);
+  } while (centerIndex === leftIndex || centerIndex === arr[0] || centerIndex === arr[1] || centerIndex === arr[2]);
   centerImage.src = Bus.all[centerIndex].image;
   centerImage.alt = Bus.all[centerIndex].name;
   centerBusIndex = centerIndex;
 
+
   let rightIndex;
   do {
-    rightIndex = randomNumber( 0, Bus.all.length - 1 );
-  } while( rightIndex === leftIndex || rightIndex === centerIndex );
+    rightIndex = randomNumber(0, Bus.all.length - 1);
+  } while (rightIndex === leftIndex || rightIndex === centerIndex || rightIndex === arr[0] || rightIndex === arr[1] || rightIndex === arr[2]);
 
   rightImage.src = Bus.all[rightIndex].image;
   rightImage.alt = Bus.all[rightIndex].name;
@@ -72,46 +82,118 @@ function renderNewBus() {
   Bus.all[centerIndex].shown++;
   Bus.all[rightIndex].shown++;
 
+arr [0] = leftIndex;
+arr [1] = rightIndex;
+arr [2] = centerIndex;
+
+  // let prevLeftIndex;
+  // let prevCenterIndex;
+  // let prevRightIndex;
+  // let iteration=[];
+  // for (let i = 0; i < busArray.length; i++) {
+  //   if (leftIndex[i] == prevLeftIndex[i] || centerIndex[i] == prevCenterIndex[i] || rightIndex[i] == prevRightIndex[i]){
+  //   prevCenterIndex = generateRandomNumber();
+  //   prevLeftIndex = generateRandomNumber();
+  //   prevRightIndex = generateRandomNumber();
+  //        }
+
+
+  // }
+  // prevLeftIndex=iteration.push(leftIndex);
+  // prevCenterIndex=iteration.push(centerIndex);
+  // prevRightIndex=iteration.push(rightIndex);
 }
 
-function handelClick( event ) {
+function handelClick(event) {
 
-  if( Bus.counter < clickCounter ) {
+  if (Bus.counter < clickCounter) {
     const clickedElement = event.target;
-    if( clickedElement.id === 'leftImage' || clickedElement.id === 'rightImage' || clickedElement.id === 'centerImage' ) {
-      if( clickedElement.id === 'leftImage' ) {
+    if (clickedElement.id === 'leftImage' || clickedElement.id === 'rightImage' || clickedElement.id === 'centerImage') {
+      if (clickedElement.id === 'leftImage') {
         Bus.all[leftBusIndex].clicks++;
       }
-      if( clickedElement.id === 'centerImage' ) {
+      if (clickedElement.id === 'centerImage') {
         Bus.all[centerBusIndex].clicks++;
       }
-      if( clickedElement.id === 'rightImage' ) {
+      if (clickedElement.id === 'rightImage') {
         Bus.all[rightBusIndex].clicks++;
       }
 
       Bus.counter++;
       renderNewBus();
 
-      console.log( Bus.all );
+      console.log(Bus.all);
     }
+
   }
 }
 
-productType.addEventListener ( 'click', handelClick );
-
+productType.addEventListener('click', handelClick);
 function getResult() {
-  const parentElement = document.getElementById( 'list' );
-  const ulElement = document.createElement( 'ul' );
-  parentElement.appendChild( ulElement );
-  for ( let i = 0; i < busArray.length; i++ ){
-    const liElement = document.createElement( 'li' );
-    ulElement.appendChild( liElement );
+  const parentElement = document.getElementById('list');
+  const ulElement = document.createElement('ul');
+  parentElement.appendChild(ulElement);
+  for (let i = 0; i < busArray.length; i++) {
+    const liElement = document.createElement('li');
+    ulElement.appendChild(liElement);
     liElement.textContent = `image ${Bus.all[i].name} it's had a ${Bus.all[i].clicks} clicks, and was seen ${Bus.all[i].shown}  times.`;
   }
-
+  console.log(Bus.all[i].name, Bus.all[i].clicks, Bus.all[i].shown);
+}
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomNumber( min, max ) {
-  return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
-}
 renderNewBus();
+const chart = document.getElementById('chart');
+chart.addEventListener('click', renderChart);
+
+function renderChart() {
+
+  let nameArray = [];
+  let clicksArray = [];
+  let showArray = [];
+
+  for (let i = 0; i < Bus.all.length; i++) {
+    nameArray.push(Bus.all[i].name);
+    clicksArray.push(Bus.all[i].clicks);
+    showArray.push(Bus.all[i].shown);
+
+  }
+  let ctx = document.getElementById('myChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: nameArray,
+      datasets: [
+        {
+          label: '# of Votes',
+          data: clicksArray,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 3
+        }
+
+        ,
+        {
+          label: '# of show',
+          data: showArray,
+          backgroundColor: 'gray',
+          borderColor: 'pink',
+          borderWidth: 2
+        }
+      ],
+    },
+
+
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}

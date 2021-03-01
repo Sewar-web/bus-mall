@@ -2,49 +2,44 @@
     box-sizing: border-box;
   }
   
-  body {
+   body {
     width: 960px;
     margin: auto;
+    background-color: rgb(153, 201, 201);
   }
-
   img
   {
-    width: 50%;
+    width: 30%;
+    margin-right: 0  15px;
   }
   
-
-  
-  
-  .container {
-    display: grid;
-    grid-template-rows: 100px minmax(calc(100vh - 170px) , 1fr) 50px;
-    gap: 10px;
-  }
-  
-  .image-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  button
+  div
   {
-    width: 50%;
-    height: fit-content;
-    width: 50%;
-    height: fit-content;
-    margin-block-start: auto
-}
+    float: left;
+    padding: 10px;
+    margin: 12px -9px;
   }
+  #button
+  {
+    background-color: cornflowerblue;
+    padding: 3px 53px;
+    
   
-  footer {
-    text-align: center;
-    display: flex;
-    background: #505153;
-    color: #eee;
-   
   }
-  
+  #chart
+  {
+    display: block;
+    background-color: chocolate;
+    padding: 3px 53px;
+  }
+  main ul{
+    display: table;
+    color: rgb(212, 20, 148);
+  } 
   footer p {
     width: 100%;
     text-align: center;
-  }
+    font-size: larger;
+    background-color: #774444;
+    padding: 20px;
+  } 
