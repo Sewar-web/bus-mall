@@ -60,7 +60,7 @@ function renderNewBus() {
   let rightIndex;
   do {
     rightIndex = randomNumber( 0, Bus.all.length - 1 );
-  } while( leftIndex === rightIndex );
+  } while( rightIndex === leftIndex || rightIndex === centerIndex );
 
   rightImage.src = Bus.all[rightIndex].image;
   rightImage.alt = Bus.all[rightIndex].name;
@@ -76,7 +76,7 @@ function renderNewBus() {
 
 function handelClick( event ) {
 
-  if( Bus.counter <= clickCounter ) {
+  if( Bus.counter < clickCounter ) {
     const clickedElement = event.target;
     if( clickedElement.id === 'leftImage' || clickedElement.id === 'rightImage' || clickedElement.id === 'centerImage' ) {
       if( clickedElement.id === 'leftImage' ) {
@@ -97,11 +97,21 @@ function handelClick( event ) {
   }
 }
 
-productType.addEventListener( 'click', handelClick );
+productType.addEventListener ( 'click', handelClick );
 
+function getResult() {
+  const parentElement = document.getElementById( 'list' );
+  const ulElement = document.createElement( 'ul' );
+  parentElement.appendChild( ulElement );
+  for ( let i = 0; i < busArray.length; i++ ){
+    const liElement = document.createElement( 'li' );
+    ulElement.appendChild( liElement );
+    liElement.textContent = `image ${Bus.all[i].name} it's had a ${Bus.all[i].clicks} clicks, and was seen ${Bus.all[i].shown}  times.`;
+  }
+
+}
 
 function randomNumber( min, max ) {
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
-
 renderNewBus();
