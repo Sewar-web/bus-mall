@@ -71,6 +71,7 @@ function renderNewBus() {
   Bus.all[leftIndex].shown++;
   Bus.all[centerIndex].shown++;
   Bus.all[rightIndex].shown++;
+  console.log( leftIndex , centerIndex , rightIndex );
 
 }
 
@@ -110,8 +111,14 @@ function getResult() {
   }
 
 }
+function remove() {
+  document.getElementById( 'productType' ).removeEventListener( 'click', handelClick );
+}
 
 function randomNumber( min, max ) {
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
+// function remove() {
+//   document.getElementById( 'productType' ).removeEventListener( 'click', handelClick );
+// }
 renderNewBus();
