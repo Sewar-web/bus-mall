@@ -86,9 +86,7 @@ function renderNewBus() {
   arr [1] = rightIndex;
   arr [2] = centerIndex;
 
-  console.log(leftIndex ,centerIndex , rightIndex );
 }
-
 function handelClick( event ) {
 
   if ( Bus.counter < clickCounter ) {
@@ -103,7 +101,6 @@ function handelClick( event ) {
       if ( clickedElement.id === 'rightImage' ) {
         Bus.all[rightBusIndex].clicks++;
       }
-
       Bus.counter++;
       renderNewBus();
 
@@ -122,6 +119,7 @@ function getResult() {
     const liElement = document.createElement( 'li' );
     ulElement.appendChild( liElement );
     liElement.textContent = `image ${Bus.all[i].name} it's had a ${Bus.all[i].clicks} clicks, and was seen ${Bus.all[i].shown}  times.`;
+
   }
 }
 console.log( getResult );
@@ -133,12 +131,13 @@ renderNewBus();
 const chart = document.getElementById( 'chart' );
 chart.addEventListener( 'click', renderChart );
 
+
 function renderChart() {
 
   let nameArray = [];
   let clicksArray = [];
   let showArray = [];
-
+  localStorage.setItem( 'orders', JSON.stringify( Bus.all ) );
   for ( let i = 0; i < Bus.all.length; i++ ) {
     nameArray.push( Bus.all[i].name );
     clicksArray.push( Bus.all[i].clicks );
@@ -182,3 +181,15 @@ function renderChart() {
     }
   } );
 }
+
+function getData() {
+  const data = localStorage.getItem( 'orders' );
+  if( data ) {
+    const objData = JSON.parse( data );
+    Bus.all = objData;
+    renderChart();
+  }
+}
+
+chart.addEventListener( 'submit', Bus );
+getData();
